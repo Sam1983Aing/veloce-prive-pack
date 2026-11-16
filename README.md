@@ -13,7 +13,7 @@ Three landing pages for a made-up supercar gallery, built with Claude Code and t
 | The gallery | `gallery/` | The page from the video. Six rooms down one hall, a car on a turntable in each and a film on every wall. You walk through it by scrolling. |
 | Concept 1, The Showroom | `concept-1/` | Five of the cars as a fleet you flick through, each one under the lights with its price. |
 | Concept 3, Waiting | `concept-3/` | Your car is already on the stand when your jet lands. Scroll and the page plays like a short film. |
-| Room films sheet | `room-films/` | Every film made for the walls: the exact prompt, the settings, the model and the credit cost. |
+| Room films sheet | `room-films/` | Every film made for the walls, all 15 takes, each playing next to the exact prompt that made it, with the settings, the model and the credit cost. |
 
 | | |
 |---|---|
@@ -30,11 +30,11 @@ npm run dev
 
 Then open the address it prints, ending in `/veloce-prive-pack/`. The pages are made for a laptop or a desktop. `npm run build` puts the finished site in `dist/`, and `npm run preview` serves it.
 
-## The films aren't in the pack
+## The films
 
-The gallery plays a film on the wall of each room and a trailer before you walk in. The films aren't part of this repo, so every wall shows a "Your film here" frame and the trailer button says "Enter the gallery".
+The gallery plays a film on the wall of each room and a trailer before you walk in. They're the ones from the video, made with Higgsfield: Seedance 2.5 for rooms 01 to 03, Kling 4.0 for rooms 04 to 06, and the trailer in Cinema Studio 4.0. The room films sheet has all 15 takes, the ones on the walls and the ones that didn't make it, each next to its prompt.
 
-To add your own, put 16:9 MP4s in `public/films` (`room-01.mp4` to `room-06.mp4`, and `trailer.mp4`) and list them in `public/films/films.json`. The page only asks for the files you list. The prompts I used for mine are on the room films sheet.
+To use your own, put 16:9 MP4s in `public/films` (`room-01.mp4` to `room-06.mp4`, and `trailer.mp4`) and list them in `public/films/films.json`. The page only asks for the files you list, a wall with no film shows a "Your film here" frame, and with no trailer the button says "Enter the gallery".
 
 ## How it's put together
 
@@ -62,7 +62,11 @@ Car models, each under its own licence, repainted and adjusted for these pages:
 - **Room 05, the white track car:** by [Black Snow](https://sketchfab.com/BlackSnow02) on [Sketchfab](https://sketchfab.com/3d-models/mclaren-senna-free-ea3e43a6eb004853a87fe9c58422eb96), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 - **Room 06, the blue hypercar:** by [DevPoly3D](https://sketchfab.com/DevPoly3D) on [Sketchfab](https://sketchfab.com/3d-models/bugatti-veyron-racing-car-unityunreal-8517e3271613487ca1cb37832ff54669), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
-The films were made with Higgsfield (Seedance 2.5, Kling 4.0 and Cinema Studio 4.0), and you can see them in the video.
+The films were made with Higgsfield (Seedance 2.5, Kling 4.0 and Cinema Studio 4.0) and are shared here as examples of what each prompt gave.
+
+## Licence
+
+The code is under the MIT licence (`LICENSE`). The car models keep their own licences, listed above. The films and stills are shared as examples to go with their prompts.
 
 ## Find me
 

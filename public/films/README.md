@@ -1,9 +1,8 @@
-# Your films go here
+# The films
 
-The gallery page plays a film on the wall of each room and a trailer before you walk in. They aren't in this repo, so every wall shows a "Your film here" frame until you add your own.
+`room-01.mp4` to `room-06.mp4` play on the walls of the gallery's six rooms, and `trailer.mp4` plays when you click Watch trailer. They're the films from the video, made with Higgsfield. The prompts behind them are on the room films sheet (`room-films/`).
 
-1. Put a 16:9 MP4 per room in this folder: `room-01.mp4` to `room-06.mp4`. A trailer goes in as `trailer.mp4`.
-2. List them in `films.json`, for example:
+To use your own, replace these files with 16:9 MP4s of your own and keep `films.json` listing the ones that are there:
 
 ```json
 {
@@ -12,6 +11,4 @@ The gallery page plays a film on the wall of each room and a trailer before you 
 }
 ```
 
-Rooms that aren't listed keep the frame. The page only asks for the files you list, so nothing errors in the meantime.
-
-The prompts I used for my films, with their settings and credit cost, are on the room films sheet: `room-films/index.html`.
+A room that isn't listed shows a "Your film here" frame, and with `"trailer": false` the button says "Enter the gallery" and opens the hall straight away.

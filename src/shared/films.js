@@ -1,5 +1,6 @@
 // Which films are in public/films, read from films.json, so the gallery only asks for files that exist.
-// The repo ships with none: every wall shows its "Your film here" frame and the trailer button opens the hall.
+// The repo ships with all six and the trailer. A room left out shows its "Your film here" frame, and with no
+// trailer the button opens the hall.
 export const filmUrl = (name) => import.meta.env.BASE_URL + 'films/' + name;
 
 export const films = fetch(filmUrl('films.json'))
