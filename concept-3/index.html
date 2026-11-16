@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waiting, by Veloce Privé</title>
+    <meta name="description" content="Veloce Privé. Your car is already on the stand when you land: washed, fuelled, engine running. Red, Silver, Green, White and Blue, delivered to private terminals, marinas, hotels and homes." />
+    <meta name="theme-color" content="#06080B" />
+    <link rel="icon" type="image/svg+xml" href="../src/concept-3/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../src/concept-3/style.css" />
+  </head>
+  <body class="is-film is-loading">
+    <div class="stage" aria-hidden="true">
+      <canvas class="stage__canvas"></canvas>
+      <div class="stage__black"></div>
+      <p class="stage__fallback" hidden>This film needs a newer browser to play. The cars, how the handover works and the request are all below.</p>
+    </div>
+
+    <div class="letterbox letterbox--top" aria-hidden="true"></div>
+    <div class="letterbox letterbox--bottom" aria-hidden="true"></div>
+
+    <div class="picture" aria-live="polite">
+      <div class="picture__lines">
+        <p class="picture__caption"></p>
+        <p class="picture__subtitle"></p>
+      </div>
+    </div>
+
+    <section class="title" aria-label="Waiting, a short film">
+      <p class="title__brand">Veloce Privé</p>
+      <h1 class="title__word">Waiting</h1>
+      <div class="title__foot">
+        <p class="title__line">Your car is already on the stand when you land.</p>
+        <p class="title__hint">Scroll to play</p>
+      </div>
+    </section>
+
+    <header class="nav" aria-label="Veloce Privé">
+      <a class="nav__mark" href="#top">Veloce Privé</a>
+      <nav class="nav__links">
+        <a href="#cars">The cars</a>
+        <a href="#running-order">How it works</a>
+        <a class="nav__request" href="#request">Request</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="film" aria-label="The last hour before you land"></section>
+
+      <section class="cars" id="cars" aria-label="Who's waiting for you">
+        <div class="cars__pin">
+          <h2 class="cars__title">Who’s waiting for&nbsp;<em>you</em>?</h2>
+          <ol class="cars__cast" aria-label="The five cars"></ol>
+          <div class="cars__card" aria-live="polite">
+            <h3 class="cars__name"></h3>
+            <p class="cars__kept"></p>
+            <p class="cars__fact"></p>
+            <p class="cars__price"></p>
+            <a class="cars__choose" href="#request"></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="order" id="running-order" aria-label="How the handover works">
+        <h2 class="order__title">The running&nbsp;<em>order</em></h2>
+        <p class="order__clock" aria-hidden="true">19:30</p>
+        <ol class="order__list">
+          <li><time>19:30</time><p>Your request is confirmed. One person looks after it, start to finish.</p></li>
+          <li><time>21:00</time><p>Washed, fuelled, tyres set. The seat and mirrors go to the height you gave us.</p></li>
+          <li><time>21:40</time><p>Parked airside on your stand. Delivery and insurance are in the price.</p></li>
+          <li><time>22:31</time><p>We follow your tail number, not the timetable. A delay is our problem.</p></li>
+          <li><time>22:52</time><p>The engine is started before your door opens.</p></li>
+          <li><time>22:58</time><p>Licence and passport, two minutes. The key is yours.</p></li>
+          <li><time>After</time><p>Leave it where you finish. A hotel, a marina, another terminal. We collect it.</p></li>
+        </ol>
+        <p class="order__note">Not flying in? The same handover at hotels, marinas and front doors.</p>
+      </section>
+
+      <section class="request" id="request" aria-label="Request a handover">
+        <h2 class="request__title">Tell us where<br />you <em>land</em>.</h2>
+        <form class="request__form" novalidate>
+          <label class="field"><span>Airport or address</span><input name="where" type="text" autocomplete="off" placeholder="For example, Nice, private terminal" required /><em class="field__error" aria-live="polite"></em></label>
+          <label class="field"><span>Date and time</span><input name="when" type="text" autocomplete="off" placeholder="For example, 22:40 on the 12th" required /><em class="field__error" aria-live="polite"></em></label>
+          <label class="field"><span>Car</span><select name="car"></select></label>
+          <label class="field"><span>Name</span><input name="name" type="text" autocomplete="name" required /><em class="field__error" aria-live="polite"></em></label>
+          <label class="field"><span>Phone</span><input name="phone" type="tel" autocomplete="tel" required /><em class="field__error" aria-live="polite"></em></label>
+          <p class="request__note"><span class="request__rate">From 2,400 a day.</span> Delivered, fuelled and waiting when you land. We answer within twenty minutes, day or night.</p>
+          <p class="request__error" role="alert"></p>
+          <button type="submit" class="request__button"><span>Arrange the handover</span><svg class="request__arrow" width="30" height="9" viewBox="0 0 30 9" aria-hidden="true"><path d="M0 4.5h28M24 1l4 3.5L24 8" fill="none" stroke="currentColor" stroke-width="1"/></svg></button>
+        </form>
+        <p class="request__done" hidden></p>
+        <footer class="request__foot" aria-label="Veloce Privé">
+          <p class="request__mark">Veloce Privé</p>
+          <p>Monaco, Geneva, Milan, Dubai, Miami</p>
+          <p>Private terminals, marinas, hotels, homes</p>
+          <p>Delivery, collection, insurance and a full tank, included</p>
+          <p><a href="tel:+37798062400">+377 98 06 24 00</a> <a href="mailto:concierge@veloceprive.com">concierge@veloceprive.com</a></p>
+        </footer>
+      </section>
+
+    </main>
+
+    <script type="module" src="../src/concept-3/main.js"></script>
+  </body>
+</html>

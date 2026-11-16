@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veloce Privé Pack</title>
+<meta name="description" content="Three landing pages for a fictional supercar gallery, built with Claude Code and three.js, with their code and the prompt sheet for every film on the walls.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #0d0b0a; --surface: #161311; --ink: #ece6db; --muted: #9b9288; --rule: #2c2722; --brass: #d4a35a;
+  --display: "Libre Caslon Display", "Times New Roman", serif;
+  --text: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--text); }
+a { color: inherit; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 64px 16px 96px; }
+.kicker { font: 500 12px/1.4 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
+h1 { font: 400 clamp(40px, 8vw, 76px)/1.02 var(--display); margin: 0 0 20px; text-wrap: balance; }
+.lede { max-width: 620px; color: var(--muted); font-size: 18px; margin: 0 0 28px; }
+.watch { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border: 1px solid var(--brass); color: var(--brass); border-radius: 999px; text-decoration: none; font-weight: 500; }
+.watch:hover { background: rgba(212,163,90,.1); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin: 64px 0 0; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.card img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; background: #000; }
+.card .body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.card .n { font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--brass); }
+.card h2 { font: 400 28px/1.15 var(--display); margin: 0; }
+.card p { margin: 0; color: var(--muted); }
+.card .links { margin-top: auto; padding-top: 10px; display: flex; gap: 16px; font: 500 13px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.card .links a { text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 2px; }
+.card .links a:hover { border-color: var(--brass); color: var(--brass); }
+section.more { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin: 72px 0 0; padding-top: 32px; border-top: 1px solid var(--rule); }
+section.more h3 { font: 400 26px var(--display); margin: 0 0 10px; }
+section.more p { color: var(--muted); margin: 0 0 12px; }
+pre { margin: 0; padding: 14px 16px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; font: 400 13px/1.7 var(--mono); overflow-x: auto; }
+code { font: 400 13px var(--mono); color: var(--ink); }
+footer { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; display: grid; gap: 14px; }
+footer .social { display: flex; flex-wrap: wrap; gap: 18px; }
+footer .social a { text-decoration: none; border-bottom: 1px solid var(--rule); }
+footer .social a:hover { color: var(--brass); border-color: var(--brass); }
+@media (max-width: 640px) { .wrap { padding-top: 40px; } .grid { margin-top: 44px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Veloce Privé · the free pack</p>
+  <h1>Three pages, one supercar gallery</h1>
+  <p class="lede">The landing pages from my video, with all of their code, and the prompt sheet for every film made for the walls. Open them, take them apart and make them yours. Veloce Privé and its cars are made up.</p>
+  <a class="watch" href="https://youtu.be/t5j3mBPtLfU" target="_blank" rel="noopener">Watch how it was built</a>
+
+  <div class="grid">
+    <article class="card">
+      <img src="/previews/gallery.jpg" alt="The gallery: Veloce Privé carved into a red wall, and the red spider at the end of a line of doorways" loading="lazy" width="1280" height="720">
+      <div class="body">
+        <span class="n">The page from the video</span>
+        <h2>The gallery</h2>
+        <p>Six rooms down one hall, a car on a turntable in each and a film on every wall. Scroll to walk through.</p>
+        <div class="links"><a href="gallery/">Open</a><a href="https://github.com/Sam1983Aing/veloce-prive-pack/tree/main/src/gallery" target="_blank" rel="noopener">Code</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <img src="/previews/concept-1.jpg" alt="Concept 1: the red spider in a dark showroom, the next car behind it" loading="lazy" width="1280" height="720">
+      <div class="body">
+        <span class="n">Concept 1</span>
+        <h2>The Showroom</h2>
+        <p>Five of the cars as a fleet you flick through, each one under the lights with its price and a way to request it.</p>
+        <div class="links"><a href="concept-1/">Open</a><a href="https://github.com/Sam1983Aing/veloce-prive-pack/tree/main/src/concept-1" target="_blank" rel="noopener">Code</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <img src="/previews/concept-3.jpg" alt="Concept 3: the red spider waiting on a runway at night, a private jet behind it" loading="lazy" width="1280" height="720">
+      <div class="body">
+        <span class="n">Concept 3</span>
+        <h2>Waiting</h2>
+        <p>Your car is already on the stand when your jet lands. Scroll and the page plays like a short film.</p>
+        <div class="links"><a href="concept-3/">Open</a><a href="https://github.com/Sam1983Aing/veloce-prive-pack/tree/main/src/concept-3" target="_blank" rel="noopener">Code</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <img src="/previews/room-films.jpg" alt="The room films sheet: the prompt recipe and the first films" loading="lazy" width="1280" height="720">
+      <div class="body">
+        <span class="n">The prompts</span>
+        <h2>Room films sheet</h2>
+        <p>Every film made for the walls: the exact prompt, the settings, the model and what it cost. Copy one and swap in your own car.</p>
+        <div class="links"><a href="room-films/">Open</a></div>
+      </div>
+    </article>
+  </div>
+
+  <section class="more">
+    <div>
+      <h3>Run it on your computer</h3>
+      <p>You need Node.js. Then, in the folder:</p>
+      <pre><code>npm install
+npm run dev</code></pre>
+      <p>Open the address it prints, ending in <code>/veloce-prive-pack/</code>. The pages are best on a laptop.</p>
+    </div>
+    <div>
+      <h3>Add your own films</h3>
+      <p>The films and the trailer aren't in the pack, so every wall shows a "Your film here" frame. Drop your MP4s into <code>public/films</code> and list them in <code>films.json</code>. The room films sheet has the prompts I used to make mine.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>Car models: room 01 by vicent091036 (from the three.js examples), room 02 by Lionsharp Studios (CC BY-SA 4.0), room 03 from moizahmad418's 3D configurator, room 04 by Artem P, room 05 by Black Snow and room 06 by DevPoly3D (CC BY 4.0). Repainted and adjusted. Full credits and links are in the README.</div>
+    <div class="social">
+      <a href="https://x.com/SammmAing" target="_blank" rel="noopener">X</a>
+      <a href="https://www.linkedin.com/in/samnang-aing-639168341/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.threads.com/@prompting_lab/" target="_blank" rel="noopener">Threads</a>
+      <a href="https://www.instagram.com/samnang.aing/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://github.com/Sam1983Aing/veloce-prive-pack" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Veloce Privé, private supercar rental in five cities</title>
+    <meta name="description" content="Five cars in one room: a Red Spider, a Silver Coupe, a Green V12, a White Track Car and a Blue Hypercar. Brought to your door in Monaco, Geneva, Milan, Dubai or Miami." />
+    <meta name="theme-color" content="#0a0a09" />
+    <link rel="icon" type="image/svg+xml" href="../src/concept-1/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../src/concept-1/style.css" />
+  </head>
+  <body>
+    <div id="stage" aria-hidden="true"><canvas id="gl"></canvas></div>
+    <p id="no-gl" class="body" hidden>The studio needs a newer browser. The cars are still here.</p>
+
+    <div id="cursor" aria-hidden="true">
+      <svg class="cursor-tick" viewBox="0 0 8 12"><path d="M6.5 1 1.5 6l5 5" /></svg>
+      <span class="cursor-label">Drag</span>
+      <svg class="cursor-tick" viewBox="0 0 8 12"><path d="M1.5 1l5 5-5 5" /></svg>
+    </div>
+
+    <div id="opening">
+      <span id="opening-mark" class="wordmark">Veloce Privé</span>
+      <p id="opening-slow" class="body">Preparing the studio.</p>
+    </div>
+
+    <header id="nav">
+      <a href="#top" id="nav-mark" class="wordmark" aria-label="Veloce Privé, back to the top">Veloce Privé</a>
+      <nav aria-label="Primary">
+        <a class="nav-link" href="#s-fleet">The fleet</a>
+        <a class="nav-link" href="#s-how">How it works</a>
+        <a class="nav-link nav-request" href="#s-request">Request</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- 1. The showroom -->
+      <section id="s-showroom" class="s-showroom" aria-label="The showroom">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="label counter" aria-live="polite"><span class="counter-roll"><span id="counter-now">01</span></span><span class="counter-of"> / 05</span></p>
+            <h1 class="display hero-name" id="hero-name">
+              <span class="line"><span class="line-in" id="name-make">Red</span></span>
+              <span class="line"><span class="line-in" id="name-model">Spider</span></span>
+            </h1>
+            <p class="body hero-line" id="hero-line">Kept in Monaco, brought to your door. From €2,400 a day.</p>
+            <p class="hero-spec" id="hero-spec">2013 · 4.5 litre V8, 570 PS · Racing red over tan leather</p>
+            <p class="hero-avail" id="hero-avail"><span id="hero-avail-text">Free today</span></p>
+            <a class="link" id="hero-request" href="#s-request"><span>Request this car</span></a>
+          </div>
+
+          <nav class="rail" aria-label="The fleet, five cars">
+            <ol class="rail-list" id="rail-list"></ol>
+            <span class="rail-bar" id="rail-bar" aria-hidden="true"></span>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 2. The walk-around -->
+      <section id="s-walk" class="s-walk pinned" aria-label="The walk-around">
+        <div class="pin">
+          <div class="walk-intro" id="walk-intro">
+            <p class="statement">
+              <span class="line"><span class="line-in">At the handover, someone walks you round it.</span></span>
+              <span class="line"><span class="line-in tone-stone">This is the short version.</span></span>
+            </p>
+            <p class="body walk-line"><span class="line"><span class="line-in" id="walk-line"></span></span></p>
+            <dl class="facts" id="walk-dl"></dl>
+          </div>
+          <div class="note" id="note-0" data-side="left-top">
+            <h2 class="statement note-head"><span class="line"><span class="line-in"></span></span></h2>
+            <p class="body note-body"><span class="line"><span class="line-in"></span></span></p>
+          </div>
+          <div class="note" id="note-1" data-side="right">
+            <h2 class="statement note-head"><span class="line"><span class="line-in"></span></span></h2>
+            <p class="body note-body"><span class="line"><span class="line-in"></span></span></p>
+          </div>
+          <div class="note" id="note-2" data-side="right-low">
+            <h2 class="statement note-head"><span class="line"><span class="line-in"></span></span></h2>
+            <p class="body note-body"><span class="line"><span class="line-in"></span></span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2b. The lights go down: a breath before the peak -->
+      <section id="s-hush" class="s-hush" aria-label="Lights down">
+        <div class="hush-inner">
+          <p class="statement hush-line" data-reveal>
+            <span class="line"><span class="line-in">Lights down.</span></span>
+            <span class="line"><span class="line-in tone-stone">It is about to start.</span></span>
+          </p>
+          <button type="button" class="link hush-sound" id="hush-sound"><span>Sound on, if you can</span></button>
+        </div>
+      </section>
+
+      <!-- 3. Start it -->
+      <section id="s-start" class="s-start pinned" aria-label="Start it">
+        <div class="pin" id="hold-zone">
+          <div class="start-copy">
+            <h2 class="display start-prompt" id="start-prompt">Press and hold.</h2>
+          </div>
+          <p class="body start-keys">Or hold the space bar.</p>
+        </div>
+      </section>
+
+      <!-- 4. Watch it leave -->
+      <section id="s-drive" class="s-drive pinned" aria-label="Watch it leave">
+        <div class="pin">
+          <p class="statement drive-line" id="drive-line">Monaco to the Col de Turini before breakfast.</p>
+        </div>
+      </section>
+
+      <!-- 5. Breath -->
+      <section id="s-breath" class="s-breath pinned" aria-label="It arrives where you are">
+        <div class="pin">
+          <p class="statement breath-text" id="breath-text">
+            <span class="line"><span class="line-in">It arrives where you are.</span></span>
+            <span class="line"><span class="line-in tone-stone">Your door, your hotel, the tarmac.</span></span>
+          </p>
+        </div>
+      </section>
+
+      <!-- 6. How it works -->
+      <section id="s-how" class="s-how pinned" aria-label="How it works">
+        <div class="pin">
+          <div class="how-col">
+            <p class="label how-label">How it works</p>
+            <div class="how-step">
+              <span class="how-num" aria-hidden="true"><span class="how-num-roll" id="how-num-roll"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></span></span>
+              <div class="how-text">
+                <h2 class="statement how-head" id="how-head"><span class="line"><span class="line-in">You ask.</span></span></h2>
+                <p class="body how-body" id="how-body"><span class="line"><span class="line-in">Car, city, dates. Two minutes here, or a call to the desk.</span></span></p>
+              </div>
+            </div>
+            <ol class="how-dots" id="how-dots" aria-hidden="true"><li></li><li></li><li></li><li></li><li></li></ol>
+          </div>
+          <ol class="sr-only" id="how-list"></ol>
+        </div>
+      </section>
+
+      <!-- 6b. The logbook -->
+      <section id="s-log" class="s-log pinned" aria-label="From the logbook">
+        <div class="pin">
+          <div class="log-head">
+            <p class="label">From the logbook</p>
+            <p class="body log-intro">Where the cars went in the last few weeks. Every one came back on time.</p>
+          </div>
+          <ol class="log-track" id="log-track"></ol>
+        </div>
+      </section>
+
+      <!-- 7. The fleet and its rates -->
+      <section id="s-fleet" class="s-fleet pinned" aria-label="The fleet and its rates">
+        <div class="pin fleet-pin">
+          <h2 class="display fleet-title" id="fleet-title">
+            <span class="line"><span class="line-in">Five cars.</span></span>
+            <span class="line"><span class="line-in tone-stone">One room.</span></span>
+          </h2>
+          <div class="rates" id="rates">
+            <div class="rates-head">
+              <p class="label">The rates</p>
+              <p class="body rates-note">In euros, VAT included. Insurance, delivery and collection are in every price.</p>
+            </div>
+            <table class="rate-card" id="rate-card">
+              <thead>
+                <tr>
+                  <th scope="col" class="c-car">Car</th>
+                  <th scope="col" class="c-city">Kept in</th>
+                  <th scope="col" class="c-num">A day</th>
+                  <th scope="col" class="c-num">Three days</th>
+                  <th scope="col" class="c-num">A week</th>
+                <th scope="col" class="c-num">A month</th>
+                  <th scope="col" class="c-num">Deposit held</th>
+                  <th scope="col" class="c-num">Km a day</th>
+                  <th scope="col" class="c-act"><span class="sr-only">Choose</span></th>
+                </tr>
+              </thead>
+              <tbody id="rate-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7b. What comes with it -->
+      <section id="s-terms" class="s-terms" aria-label="What comes with every car">
+        <div class="terms">
+          <div class="terms-col" data-reveal>
+            <h3 class="statement terms-title"><span class="line"><span class="line-in">With every car.</span></span></h3>
+            <ul class="body terms-list">
+              <li class="terms-car" id="terms-car"></li>
+              <li>Fully comprehensive insurance with no excess for damage up to the deposit, for you and one named second driver.</li>
+              <li>Delivery and collection anywhere in the five cities: your door, a hotel, a marina or a private terminal.</li>
+              <li>Any car, any city. A car kept in Monaco can meet you in Geneva, with a day’s notice.</li>
+              <li>A full tank. Bring it back as you like, we fill it.</li>
+              <li>A 24-hour line, answered by a person who knows the car.</li>
+              <li>Winter tyres in Geneva from November to March, and a car cover for the night.</li>
+            </ul>
+          </div>
+          <div class="terms-col" data-reveal>
+            <h3 class="statement terms-title"><span class="line"><span class="line-in tone-stone">To drive.</span></span></h3>
+            <ul class="body terms-list">
+              <li id="terms-age">25 or over, with three years on your licence.</li>
+              <li>A passport or national ID card, and your licence in hand at the handover.</li>
+              <li>A credit card for the deposit hold. It is released the day the car comes back.</li>
+              <li>Track days, filming and cross-border trips beyond the five countries on request.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. Ask for it -->
+      <section id="s-request" class="s-request" aria-label="Ask for it">
+        <div class="request-grid">
+          <div class="request-left" data-reveal>
+            <h2 class="display request-head"><span class="line"><span class="line-in">Ask for it.</span></span></h2>
+            <p class="body">Tell us where and when. A person calls you back within the hour to confirm the car and the handover. That’s it.</p>
+            <p class="body request-hours">One desk for all five cities, every day from 7am to midnight. Or call it: <a class="link" href="tel:+37798064210"><span>+377 98 06 42 10</span></a></p>
+          </div>
+          <div class="request-right">
+            <form id="request-form" class="request-form" novalidate>
+              <div class="field is-filled">
+                <label for="f-car" class="field-label">Car</label>
+                <select id="f-car" name="car" class="field-input"></select>
+                <span class="field-error" aria-live="polite"></span>
+              </div>
+              <div class="field is-filled">
+                <label for="f-city" class="field-label">Delivered in</label>
+                <select id="f-city" name="city" class="field-input">
+                  <option>Monaco</option><option>Geneva</option><option>Milan</option><option>Dubai</option><option>Miami</option>
+                </select>
+                <span class="field-error" aria-live="polite"></span>
+              </div>
+              <div class="field-row">
+                <div class="field is-filled">
+                  <label for="f-from" class="field-label">From</label>
+                  <input type="date" id="f-from" name="from" class="field-input" required />
+                  <span class="field-error" aria-live="polite"></span>
+                </div>
+                <div class="field is-filled">
+                  <label for="f-to" class="field-label">To</label>
+                  <input type="date" id="f-to" name="to" class="field-input" required />
+                  <span class="field-error" aria-live="polite"></span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="f-name" class="field-label">Name</label>
+                <input type="text" id="f-name" name="name" class="field-input" autocomplete="name" required />
+                <span class="field-error" aria-live="polite"></span>
+              </div>
+              <div class="field">
+                <label for="f-contact" class="field-label">Phone or email</label>
+                <input type="text" id="f-contact" name="contact" class="field-input" autocomplete="email" required />
+                <span class="field-error" aria-live="polite"></span>
+              </div>
+              <p class="body quote" id="quote" aria-live="polite"></p>
+              <button type="submit" class="request-btn" id="request-btn"><span class="btn-fill" aria-hidden="true"></span><span class="btn-label" id="btn-label">Request the Red Spider</span></button>
+            </form>
+            <div class="request-done" id="request-done" hidden>
+              <p class="statement done-head" id="done-head"><span class="line"><span class="line-in"></span></span></p>
+              <p class="body" id="done-body"><span class="line"><span class="line-in"></span></span></p>
+            </div>
+          </div>
+        </div>
+        <!-- 9. The footer, inside the request (V6): the page ends on the car and the form, not on a separate screen -->
+        <footer id="s-footer" class="request-foot">
+          <div class="footer-row body">
+            <p>Monaco, Geneva, Milan, Dubai, Miami</p>
+            <p><a class="link" href="tel:+37798064210"><span>+377 98 06 42 10</span></a> <span class="footer-gap"></span> <a class="link" href="mailto:desk@veloceprive.mc"><span>desk@veloceprive.mc</span></a></p>
+            <p>© 2026 Veloce Privé SAM. Private car rental.</p>
+          </div>
+          <p class="footer-credits">Car models by vicent091036 (Red Spider), Lionsharp Studios (Silver Coupe, CC BY-SA), moizahmad418 (Green V12), Black Snow (White Track Car, CC BY 4.0) and DevPoly3D (Blue Hypercar, CC BY 4.0).</p>
+        </footer>
+      </section>
+
+    </main>
+
+    <script type="module" src="../src/concept-1/main.js"></script>
+  </body>
+</html>

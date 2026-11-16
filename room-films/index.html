@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room Films Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #e7e5e0; --surface: #f3f2ee; --ink: #1c1a17; --muted: #68625a; --rule: #cdc8bf; --brass: #855614;
+  --ok: #2c6656; --opt: #3a5878; --wait: #8a8178; --code: #ecebe6;
+  --display: "Libre Caslon Display", "Times New Roman", serif;
+  --text: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141311; --surface: #1c1b18; --ink: #ebe7df; --muted: #9b948a; --rule: #33302b; --brass: #d4a35a;
+  --ok: #7cc3ab; --opt: #8fb0d4; --wait: #8a8178; --code: #23211e; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #141311; --surface: #1c1b18; --ink: #ebe7df; --muted: #9b948a; --rule: #33302b; --brass: #d4a35a;
+  --ok: #7cc3ab; --opt: #8fb0d4; --wait: #8a8178; --code: #23211e; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--text); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 56px 16px 96px; }
+.kicker { font: 500 12px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+h1 { font: 400 clamp(36px, 7vw, 60px)/1.04 var(--display); margin: 0 0 16px; text-wrap: balance; }
+.lede { max-width: 640px; color: var(--muted); font-size: 18px; margin: 0 0 32px; }
+.stats { display: flex; flex-wrap: wrap; gap: 28px 40px; margin: 0 0 40px; }
+.stats div b { display: block; font: 400 32px/1 var(--display); }
+.stats div span { font: 500 11px/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.toc { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 0 0 56px; }
+.toc a { display: flex; gap: 10px; align-items: baseline; padding: 12px 14px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); text-decoration: none; font-weight: 500; }
+.toc a span { font: 500 12px var(--mono); color: var(--brass); }
+.toc a:hover { border-color: var(--brass); }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 28px; margin: 0 0 24px; }
+.panel h2 { font: 400 28px/1.15 var(--display); margin: 0 0 6px; }
+.panel > p { color: var(--muted); margin: 0 0 18px; }
+.recipe { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.film .recipe li { grid-template-columns: 1fr; gap: 2px; }
+.recipe li { display: grid; grid-template-columns: 130px 1fr; gap: 16px; padding: 10px 0; border-top: 1px solid var(--rule); }
+.recipe b { font: 500 12px/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--brass); }
+.models { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.models .m h3 { font: 400 24px var(--display); margin: 0 0 8px; }
+.models .m p { margin: 0 0 6px; }
+.models .m .small { color: var(--muted); font-size: 14px; }
+.car { margin: 72px 0 0; }
+.car-head { border-top: 2px solid var(--ink); padding-top: 16px; margin-bottom: 20px; }
+.room { font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--brass); }
+.car-head h2 { font: 400 clamp(30px, 5vw, 42px)/1.1 var(--display); margin: 4px 0 4px; }
+.meta { color: var(--muted); margin: 0; font-size: 15px; }
+.film { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 24px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 18px; margin: 0 0 16px; }
+.media video, .pending { width: 100%; aspect-ratio: 16/9; border-radius: 4px; background: #000; display: block; }
+.pending { display: grid; place-items: center; background: var(--code); border: 1px dashed var(--rule); }
+.media:empty { display: none; }
+.film:has(> .media:empty) { grid-template-columns: 1fr; }
+.stills { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.still { position: relative; display: block; padding: 0; border: 0; border-radius: 4px; overflow: hidden; background: #000; cursor: zoom-in; }
+.still.big { grid-column: 1 / -1; }
+.still img { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; transition: transform .5s ease; }
+.still:hover img { transform: scale(1.025); }
+.still:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.still .t { position: absolute; left: 8px; bottom: 8px; font: 500 11px/1 var(--mono); letter-spacing: .06em; color: #fff; background: rgba(0,0,0,.55); padding: 4px 6px; border-radius: 3px; }
+.lightbox { border: 0; padding: 0; background: transparent; max-width: min(1280px, 94vw); width: 100%; cursor: zoom-out; }
+.lightbox::backdrop { background: rgba(10,9,8,.9); }
+.lightbox img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.lightbox p { color: #ebe7df; font-size: 15px; margin: 10px 0 0; }
+.lightbox .close { position: absolute; top: 10px; right: 10px; font: 500 12px var(--mono); color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.3); border-radius: 4px; padding: 5px 10px; cursor: pointer; }
+.pending span { font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.film header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.film h3 { font: 400 26px/1.15 var(--display); margin: 0; }
+.badge { font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 6px 8px; border-radius: 4px; border: 1px solid currentColor; white-space: nowrap; }
+.badge.final { color: var(--ok); } .badge.option { color: var(--opt); } .badge.wait { color: var(--wait); }
+.note { color: var(--muted); margin: 10px 0 0; font-size: 15px; }
+.shots { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 6px; font-size: 15px; }
+.shots li { display: grid; grid-template-columns: 58px 1fr; gap: 8px; }
+.shots li span { font: 500 11px/1.9 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--brass); }
+details { margin: 16px 0 0; border-top: 1px solid var(--rule); padding-top: 12px; }
+summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+.settings { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+.settings th { text-align: left; font: 500 11px/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 7px 12px 7px 0; vertical-align: top; width: 34%; border-top: 1px solid var(--rule); }
+.settings td { padding: 6px 0; border-top: 1px solid var(--rule); }
+.prompt { background: var(--code); border-radius: 6px; padding: 12px 14px; }
+.prompt-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.copy { font: 500 12px var(--mono); background: transparent; color: var(--ink); border: 1px solid var(--rule); border-radius: 4px; padding: 5px 10px; cursor: pointer; }
+.copy:hover { border-color: var(--brass); }
+pre { margin: 0; white-space: pre-wrap; word-break: break-word; font: 400 13px/1.6 var(--mono); max-height: 320px; overflow: auto; }
+footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+@media (max-width: 760px) {
+  .film { grid-template-columns: 1fr; }
+  .recipe li { grid-template-columns: 1fr; gap: 2px; }
+  .panel { padding: 20px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker"><a href="../" style="color:inherit">The free pack</a></p>
+  <p class="kicker">Veloce Privé · room films · prompts</p>
+  <h1>Six cars, one prompt recipe</h1>
+  <p class="lede">The prompt behind every film made for the showroom&#x27;s walls, with the settings, the model and what it cost. Copy a prompt, swap in your own car and make it yours.</p>
+  <div class="stats">
+    <div><b>6</b><span>Cars</span></div>
+    <div><b>12</b><span>Films</span></div>
+    <div><b>15 s</b><span>Each, at 720p</span></div>
+    <div><b>2</b><span>Models</span></div>
+  </div>
+  <nav class="toc"><a href="#room-01"><span>01</span>The red spider</a><a href="#room-02"><span>02</span>The silver coupe</a><a href="#room-03"><span>03</span>The green V12</a><a href="#room-04"><span>04</span>The yellow wedge</a><a href="#room-05"><span>05</span>The white track car</a><a href="#room-06"><span>06</span>The blue hypercar</a><a href="#trailer"><span>30 s</span>The trailers</a></nav>
+
+  <section class="panel">
+    <h2>How every prompt is built</h2>
+    <p>The same seven parts for every car. Only the car, the place and the shots change.</p>
+    <ol class="recipe"><li><b>Reference</b><span>One still of the car, taken from the 3D page. Name the car in capitals (THE RED SPIDER) and describe what must not change: paint, wheels, details.</span></li><li><b>Scene</b><span>Where and when, in one line: a cliff road at golden hour, Monaco at sunset.</span></li><li><b>Style</b><span>How it should feel: relentless speed, heavy speed blur, very low angles, a camera that chases the car.</span></li><li><b>Shot 1, 2, 3</b><span>Three timed shots that add up to 15 s, each with a camera position and one action. Say how each cut happens (a hard cut on the rev, a whip-pan, a white flare).</span></li><li><b>Sound</b><span>The engine, the road and the score, and how the score changes at the end.</span></li><li><b>Ending</b><span>Tell it how to finish: slow down, blur, fade to a fully black screen. Without this the car just drives out of frame.</span></li><li><b>Locks</b><span>What must stay true: the exact car, an anonymous driver, real weight, no added text.</span></li></ol>
+  </section>
+
+  <section class="panel">
+    <h2>Two models, side by side</h2>
+    <p>Rooms 01 to 03 use Seedance 2.5 and rooms 04 to 06 use Kling 4.0, with the same prompt recipe, to compare them.</p>
+    <div class="models">
+      <div class="m"><h3>Seedance 2.5</h3><p>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</p><p class="small">About 8 to 10 minutes. Free runs go one at a time. Made on the higgsfield.ai website.</p></div>
+      <div class="m"><h3>Kling 4.0</h3><p>33.75 credits for 15 s at 720p (48.75 at 1080p). No unlimited option.</p><p class="small">About 10 minutes. Paid runs go in parallel, so all three came back together. Made through the Higgsfield MCP in Claude Code.</p></div>
+    </div>
+  </section>
+
+
+<section class="car" id="room-01">
+  <div class="car-head">
+    <span class="room">Room 01</span>
+    <h2>The red spider</h2>
+    <p class="meta">Seedance 2.5 · 3 films</p>
+  </div>
+
+<article class="film" id="film-01-A">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Coast Run</h3><span class="badge final">On the wall</span></header>
+    <p class="note">Fast all the way: the wheel in motion blur, a pass at a low camera, a blurred chase through the bends, then the drone over the cliffs fades to black.</p>
+    <ol class="shots"><li><span>Shot 1</span>The front wheel spins up on warm asphalt and the car launches</li><li><span>Shot 2</span>Flat out at a low camera on the cliff edge, then a whip-pan chase through the bends</li><li><span>Shot 3</span>Drone rises over the cliffs into the low sun, blur to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Seedance 2.5</td></tr><tr><th>Where</th><td>higgsfield.ai, video generator</td></tr><tr><th>Mode</th><td>Reference: one still of the car, tagged @Image 1</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9, bitrate High</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>On</td></tr>
+        <tr><th>Cost</th><td>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</td></tr>
+        <tr><th>Time</th><td>About 8 to 10 minutes. Free runs go one at a time.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>@Image 1 is THE RED SPIDER, a deep red open-top mid-engine supercar with tan leather seats and silver five-spoke wheels. SCENE: a 15-second high-octane car film for THE RED SPIDER on a cliff road above the Mediterranean at golden hour. Relentless speed that feels thrilling and a little dangerous, shot like a high-end supercar commercial: heavy speed blur, very low angles, aggressive camera moves that chase the car, every cut motivated. SHOT 1 (0.0s to 3.5s), EXTREME CLOSE-UP AT WHEEL HEIGHT: the silver front wheel spins up on warm asphalt, deep red bodywork filling the frame, and the car launches hard, the sea glittering out of focus behind. Hard cut on the rev. SHOT 2 (3.5s to 10.0s), LOW CAMERA AT THE EDGE OF THE CLIFF ROAD: THE RED SPIDER charges straight at the lens flat out and blasts past a metre away, then the camera whip-pans and chases it through the bends, the sea and a small harbour far below. SHOT 3 (10.0s to 15.0s), DRONE: from door height beside the car the camera rises fast and pulls back high above the cliffs as the car powers out of a hairpin into the low sun, a long shadow on the road, warm lens flare. SOUND: a high-revving V8 that rises with every shot, tyres on hot asphalt, wind, deep drums building to the final shot. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, deep red paint, tan seats and silver five-spoke wheels of the reference, roof open. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+<article class="film" id="film-01-B">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Night City</h3><span class="badge option">Option</span></header>
+    <p class="note">Moody and fast. The white tunnel flare leads into a slow-shutter pan that stretches into streaks of light and fades to black.</p>
+    <ol class="shots"><li><span>Shot 1</span>Rain on the red bonnet, the headlight flicks on, the engine fires</li><li><span>Shot 2</span>Chase through wet neon streets, into a tunnel that flares white</li><li><span>Shot 3</span>Slow-shutter pan at full speed that dissolves in streaks of light to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Seedance 2.5</td></tr><tr><th>Where</th><td>higgsfield.ai, video generator</td></tr><tr><th>Mode</th><td>Reference: one still of the car, tagged @Image 1</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9, bitrate High</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>On</td></tr>
+        <tr><th>Cost</th><td>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</td></tr>
+        <tr><th>Time</th><td>About 8 to 10 minutes. Free runs go one at a time.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>@Image 1 is THE RED SPIDER, a deep red open-top mid-engine supercar with tan leather seats and silver five-spoke wheels. SCENE: a 15-second high-octane car film for THE RED SPIDER in a wet Italian city at night. Relentless speed that feels thrilling and a little dangerous, shot like a high-end supercar commercial: heavy speed blur, very low angles, aggressive camera moves that chase the car, every cut motivated. SHOT 1 (0.0s to 4.0s), CLOSE-UP: rain beads on the red bonnet under neon signs, the headlight flicks on and the reflections ripple across the paint. The engine fires and we hard cut. SHOT 2 (4.0s to 10.0s), CHASE CAMERA LOW BEHIND THE CAR: THE RED SPIDER tears down a wet neon street flat out, spray from the tyres, city lights smearing along the paint, then it dives into a tunnel, lights strobing over the bodywork, and the tunnel exit flares to white. The white flare opens on SHOT 3 (10.0s to 15.0s), SIDE PAN WITH A SLOW SHUTTER: on a wide empty boulevard the car passes at full speed, the background smeared into streaks of light, the driver&#x27;s silhouette at the wheel, and the camera whips round to follow it as everything stretches into light. SOUND: rain, then the V8 echoing off the buildings, a tunnel roar, a pulsing low synth score. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, deep red paint, tan seats and silver five-spoke wheels of the reference, roof open. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+<article class="film" id="film-01-C">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Hills at Sunrise</h3><span class="badge option">Option</span></header>
+    <p class="note">Opens on the car bursting out of the mist at the lens, slides along the flank to the cockpit, and ends on a high aerial over the misty hills that fades to black.</p>
+    <ol class="shots"><li><span>Shot 1</span>Bursting through morning mist straight at a low camera</li><li><span>Shot 2</span>Low beside the rear wheel, sliding up to the gloved hand on the paddle</li><li><span>Shot 3</span>Cresting the hill into the sun, then a high aerial over the misty hills, blur to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Seedance 2.5</td></tr><tr><th>Where</th><td>higgsfield.ai, video generator</td></tr><tr><th>Mode</th><td>Reference: one still of the car, tagged @Image 1</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9, bitrate High</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>On</td></tr>
+        <tr><th>Cost</th><td>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</td></tr>
+        <tr><th>Time</th><td>About 8 to 10 minutes. Free runs go one at a time.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>@Image 1 is THE RED SPIDER, a deep red open-top mid-engine supercar with tan leather seats and silver five-spoke wheels. SCENE: a 15-second high-octane car film for THE RED SPIDER on an empty country road through rolling Tuscan hills at sunrise. Relentless speed that feels thrilling and a little dangerous, shot like a high-end supercar commercial: heavy speed blur, very low angles, aggressive camera moves that chase the car, every cut motivated. SHOT 1 (0.0s to 4.0s), LOW CAMERA ON A CYPRESS-LINED ROAD: THE RED SPIDER bursts out of the morning mist straight at the lens flat out and blasts past a metre away, the mist swirling behind it. Hard cut on the roar. SHOT 2 (4.0s to 10.0s), CAMERA FIXED LOW BESIDE THE REAR WHEEL: the cypresses blur past at enormous speed, then the camera slides forward along the flank to the open cockpit, tan seats, a gloved hand pulling the shift paddle. Match cut on the click of the paddle to SHOT 3 (10.0s to 15.0s), LOW FRONT VIEW AT THE TOP OF A HILL: the car crests the rise with the sun bursting behind it, then the camera rises into a high aerial as the red car races away along the ribbon of road through the misty hills. SOUND: the V8 climbing through the gears, the paddle click, wind, a big swelling score that peaks as the car crests the hill. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, deep red paint, tan seats and silver five-spoke wheels of the reference, roof open. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+</section>
+<section class="car" id="room-02">
+  <div class="car-head">
+    <span class="room">Room 02</span>
+    <h2>The silver coupe</h2>
+    <p class="meta">Seedance 2.5 · 3 films</p>
+  </div>
+
+<article class="film" id="film-02-A">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Alpine Pass at Dawn</h3><span class="badge final">On the wall</span></header>
+    <p class="note">Fast, and ends on a sun burst that blurs to black. Because the prompt said &#x27;FPV drone&#x27;, a drone actually flies through the shot.</p>
+    <ol class="shots"><li><span>Shot 1</span>Bursting out of a rock tunnel, the camera racing beside the front wheel</li><li><span>Shot 2</span>Sliding through a hairpin, then a drone chase down the switchbacks</li><li><span>Shot 3</span>Pulling back over the valley into the sun, blur to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Seedance 2.5</td></tr><tr><th>Where</th><td>higgsfield.ai, video generator</td></tr><tr><th>Mode</th><td>Reference: one still of the car, tagged @Image 1</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9, bitrate High</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>On</td></tr>
+        <tr><th>Cost</th><td>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</td></tr>
+        <tr><th>Time</th><td>About 8 to 10 minutes. Free runs go one at a time.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>@Image 1 is THE SILVER COUPE, a silver rear-engine sports coupe with round headlights, a sloping roof, silver multi-spoke wheels and yellow brake calipers. SCENE: a 15-second high-octane car film for THE SILVER COUPE on an Alpine mountain pass at dawn. Relentless speed that feels thrilling and a little dangerous, shot like a high-end supercar commercial: heavy speed blur, very low angles, aggressive camera moves that chase the car, every cut motivated. SHOT 1 (0.0s to 4.0s), BUMPER-HEIGHT TRACKING: the coupe bursts out of a rock tunnel into the first light of dawn at full throttle, the camera racing alongside the front wheel, the yellow caliper flashing, the road a blur. Hard cut on the gear change. SHOT 2 (4.0s to 10.0s), LOW CAMERA AT THE APEX OF A HAIRPIN: the coupe slides through the bend a metre from the lens, stones flicking from the tyre, then an FPV drone dives in behind it and chases it flat out down the switchbacks, the valley dropping away. SHOT 3 (10.0s to 15.0s), DRONE: the camera pulls up and back over the valley as the coupe powers along the ridge into the rising sun, a silver glint in the golden light. SOUND: a flat-six howling to the redline, tyres scrabbling, wind, a driving percussive score that eases off for the final shot. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, paint and wheels of the reference. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+<article class="film" id="film-02-B">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Autobahn at Night</h3><span class="badge option">Option</span></header>
+    <p class="note">Moody and fast, and the ending blurs out to a full black screen. The chase is from behind rather than alongside.</p>
+    <ol class="shots"><li><span>Shot 1</span>Rain on the roof, the round headlight flicks on</li><li><span>Shot 2</span>Flat out on the wet autobahn under strobing lights</li><li><span>Shot 3</span>High drone over the empty motorway, blur to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Seedance 2.5</td></tr><tr><th>Where</th><td>higgsfield.ai, video generator</td></tr><tr><th>Mode</th><td>Reference: one still of the car, tagged @Image 1</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9, bitrate High</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>On</td></tr>
+        <tr><th>Cost</th><td>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</td></tr>
+        <tr><th>Time</th><td>About 8 to 10 minutes. Free runs go one at a time.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>@Image 1 is THE SILVER COUPE, a silver rear-engine sports coupe with round headlights, a sloping roof, silver multi-spoke wheels and yellow brake calipers. SCENE: a 15-second high-octane car film for THE SILVER COUPE on an empty German autobahn at night in light rain. Relentless speed that feels thrilling and a little dangerous, shot like a high-end supercar commercial: heavy speed blur, very low angles, aggressive camera moves that chase the car, every cut motivated. SHOT 1 (0.0s to 4.0s), EXTREME CLOSE-UP: rain beads on the sloping silver roof, the round headlight flicks on and the yellow caliper glows behind the spokes. Hard cut on the engine note. SHOT 2 (4.0s to 10.0s), CAMERA CAR AT BUMPER HEIGHT ALONGSIDE: the coupe flat out on the wet autobahn, overhead lights strobing across the silver paint, spray from the tyres, the lane markings smearing into lines. SHOT 3 (10.0s to 15.0s), HIGH WIDE DRONE: the coupe&#x27;s red tail lights weave through the long sweeping curves of the empty motorway, the camera rising slowly over the dark landscape. SOUND: rain, a flat-six howling to the redline, wind roar, a pulsing electronic score that thins out at the end. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, paint and wheels of the reference. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+<article class="film" id="film-02-C">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Frozen Lake at Sunrise</h3><span class="badge option">Option</span></header>
+    <p class="note">Pink sunrise, a big drift, and a drone pull-back over the tracks that blurs out to black.</p>
+    <ol class="shots"><li><span>Shot 1</span>The rear wheel throws a fan of snow</li><li><span>Shot 2</span>A long drift a few metres from the lens</li><li><span>Shot 3</span>High drone over the tracks on the lake, blur to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Seedance 2.5</td></tr><tr><th>Where</th><td>higgsfield.ai, video generator</td></tr><tr><th>Mode</th><td>Reference: one still of the car, tagged @Image 1</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9, bitrate High</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>On</td></tr>
+        <tr><th>Cost</th><td>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</td></tr>
+        <tr><th>Time</th><td>About 8 to 10 minutes. Free runs go one at a time.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>@Image 1 is THE SILVER COUPE, a silver rear-engine sports coupe with round headlights, a sloping roof, silver multi-spoke wheels and yellow brake calipers. SCENE: a 15-second high-octane car film for THE SILVER COUPE drifting across a frozen lake in the far north at sunrise. Relentless speed that feels thrilling and a little dangerous, shot like a high-end supercar commercial: heavy speed blur, very low angles, aggressive camera moves that chase the car, every cut motivated. SHOT 1 (0.0s to 4.0s), LOW CLOSE-UP ON THE ICE: the rear wheel spins, throwing a fan of snow that glitters in the low pink sun. Hard cut on the launch. SHOT 2 (4.0s to 10.0s), CAMERA SKIMMING LOW OVER THE ICE: the coupe slides sideways in a long controlled drift a few metres from the lens, snow spraying over the camera, then it straightens and powers away. SHOT 3 (10.0s to 15.0s), HIGH DRONE: the coupe carves a huge arc of tyre tracks across the white lake, pine forest and mountains around it, the camera rising into the sunrise. SOUND: a flat-six revving hard, studded tyres crunching on ice, snow hiss, a soaring score that settles at the end. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, paint and wheels of the reference. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+</section>
+<section class="car" id="room-03">
+  <div class="car-head">
+    <span class="room">Room 03</span>
+    <h2>The green V12</h2>
+    <p class="meta">Seedance 2.5 · 3 films</p>
+  </div>
+
+<article class="film" id="film-03-A">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Race Circuit at Dusk</h3><span class="badge option">Option</span></header>
+    <p class="note">A smoky launch, a flame on the pass and a fade out on the tail lights. Darker than the prompt asked, more dusk than floodlights.</p>
+    <ol class="shots"><li><span>Shot 1</span>Pit-lane launch, tyre smoke under the floodlights</li><li><span>Shot 2</span>Rocketing at the lens, flames on the downshift, kerbs flashing</li><li><span>Shot 3</span>Helicopter shot down the back straight, blur to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Seedance 2.5</td></tr><tr><th>Where</th><td>higgsfield.ai, video generator</td></tr><tr><th>Mode</th><td>Reference: one still of the car, tagged @Image 1</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9, bitrate High</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>On</td></tr>
+        <tr><th>Cost</th><td>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</td></tr>
+        <tr><th>Time</th><td>About 8 to 10 minutes. Free runs go one at a time.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>@Image 1 is THE GREEN V12, a bright green angular wedge supercar with large side intakes, black wheels and red brake calipers. SCENE: a 15-second high-octane car film for THE GREEN V12 on an empty race circuit at dusk under floodlights, relentless speed that feels thrilling and a little dangerous, shot like a high-end supercar commercial: heavy speed blur, very low angles, aggressive camera moves that chase the car, every cut motivated. SHOT 1 (0.0s to 4.0s), EXTREME CLOSE-UP IN THE PIT LANE: the side intake and the black rear wheel as the car launches, tyre smoke glowing under the floodlights. Hard cut on the launch. SHOT 2 (4.0s to 10.0s), CAMERA LOW AT THE END OF THE MAIN STRAIGHT: the green V12 rockets toward the lens at full speed, flames spitting from the exhaust on the downshift, brakes glowing, and sweeps into the corner past the lens, then a quick cut to a view low over the bonnet as the red and white kerbs flash by. SHOT 3 (10.0s to 15.0s), HELICOPTER SHOT: the camera follows the car down the long back straight, the floodlights streaking along the green paint, then eases up and back as the car&#x27;s tail lights draw away into the night. SOUND: a screaming V12, exhaust crackle on the downshift, tyres, a heavy pounding score that thins out over the final shot. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, paint and wheels of the reference. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+<article class="film" id="film-03-B">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>City Expressway at Night</h3><span class="badge option">Option</span></header>
+    <p class="note">Higgsfield refused the first wording twice (once as &#x27;NSFW&#x27;, a false alarm). This softer one, with no flame and no &#x27;dangerous&#x27;, went through: a low chase on an elevated highway, then a drone over the city that blurs to black.</p>
+    <ol class="shots"><li><span>Shot 1</span>City lights sliding over the side intake</li><li><span>Shot 2</span>Racing along an elevated highway between towers</li><li><span>Shot 3</span>Drone rising over a glowing interchange, blur to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Seedance 2.5</td></tr><tr><th>Where</th><td>higgsfield.ai, video generator</td></tr><tr><th>Mode</th><td>Reference: one still of the car, tagged @Image 1</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9, bitrate High</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>On</td></tr>
+        <tr><th>Cost</th><td>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</td></tr>
+        <tr><th>Time</th><td>About 8 to 10 minutes. Free runs go one at a time.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>@Image 1 is THE GREEN V12, a bright green angular wedge supercar with large side intakes, black wheels and red brake calipers. SCENE: a 15-second high-octane car film for THE GREEN V12 on an empty elevated highway winding between the lit towers of a modern city at night. Fast and thrilling, shot like a high-end supercar commercial: heavy speed blur, very low angles, a camera that chases the car, every cut motivated. SHOT 1 (0.0s to 4.0s), EXTREME CLOSE-UP: city lights reflected in the green bodywork, sliding across the side intake as the car pulls away, the exhaust glowing. Hard cut on the engine note. SHOT 2 (4.0s to 10.0s), LOW CHASE CAMERA: the green V12 races along the curving elevated highway between glowing towers, the city lights stretching into streaks, then it sweeps past a low static camera. SHOT 3 (10.0s to 15.0s), DRONE: the camera rises high above the city as the car&#x27;s lights weave through a huge glowing interchange, smaller and smaller among the lights. SOUND: a screaming V12, exhaust crackle, the hum of the city, a heavy electronic score that drops away at the end. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, paint and wheels of the reference. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+<article class="film" id="film-03-C">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Red Rock Canyon at Sunset</h3><span class="badge final">On the wall</span></header>
+    <p class="note">Red dust, a low chase between the canyon walls and a drone pull-out over the desert at sunset. The car stays accurate.</p>
+    <ol class="shots"><li><span>Shot 1</span>Red dust as the rear wheel bites</li><li><span>Shot 2</span>Blasting through a narrow canyon, then past a low camera</li><li><span>Shot 3</span>Drone pulls out to the glowing desert, blur to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Seedance 2.5</td></tr><tr><th>Where</th><td>higgsfield.ai, video generator</td></tr><tr><th>Mode</th><td>Reference: one still of the car, tagged @Image 1</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9, bitrate High</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>On</td></tr>
+        <tr><th>Cost</th><td>Free with Unlimited mode on the Ultra plan (Seedance 2.5 is unlimited at 720p, up to 20 s per clip, until Nov 26 2026). Without it: 105 credits for 15 s at 720p.</td></tr>
+        <tr><th>Time</th><td>About 8 to 10 minutes. Free runs go one at a time.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>@Image 1 is THE GREEN V12, a bright green angular wedge supercar with large side intakes, black wheels and red brake calipers. SCENE: a 15-second high-octane car film for THE GREEN V12 on a winding road through a red rock desert canyon at sunset. Relentless speed that feels thrilling and a little dangerous, shot like a high-end supercar commercial: heavy speed blur, very low angles, aggressive camera moves that chase the car, every cut motivated. SHOT 1 (0.0s to 4.0s), LOW CLOSE-UP AT THE REAR WHEEL: red dust lifts as the black wheel bites and the car launches. Hard cut on the launch. SHOT 2 (4.0s to 10.0s), CAMERA SKIMMING LOW BESIDE THE CAR: the green V12 blasts through a narrow gap between towering red rock walls, the rock blurring past, then it sweeps through a fast bend toward a low camera and thunders past. SHOT 3 (10.0s to 15.0s), DRONE: the camera pulls up and out of the canyon to reveal the vast desert glowing orange, the green car a bright speck on the road, the sun sinking on the horizon. SOUND: a screaming V12 echoing off the rock walls, gravel, wind, a big rising score that settles at the end. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, paint and wheels of the reference. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+</section>
+<section class="car" id="room-04">
+  <div class="car-head">
+    <span class="room">Room 04</span>
+    <h2>The yellow wedge</h2>
+    <p class="meta">Kling 4.0 · 1 film</p>
+  </div>
+
+<article class="film" id="film-04">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Salt Flats</h3><span class="badge final">On the wall</span></header>
+    <p class="note">Fast and fades fully to black. The still only shows the front, so the side shots drift a little from the real car.</p>
+    <ol class="shots"><li><span>Shot 1</span>Heat haze over the bonnet, launch in a spray of salt</li><li><span>Shot 2</span>Alongside at full speed, then blasting past a low camera</li><li><span>Shot 3</span>High drone, one long line across the salt, fade to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Kling 4.0</td></tr><tr><th>Where</th><td>Higgsfield MCP, from Claude Code</td></tr><tr><th>Mode</th><td>Reference to video: one still of the car</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>Not available for Kling 4.0</td></tr>
+        <tr><th>Cost</th><td>33.75 credits for 15 s at 720p (48.75 at 1080p). No unlimited option.</td></tr>
+        <tr><th>Time</th><td>About 10 minutes. Paid runs go in parallel, so all three came back together.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>The reference image shows THE YELLOW WEDGE, a bright yellow angular mid-engine supercar with a sharp wedge nose, black lower intakes and angular headlights. SCENE: a 15-second high-octane car film for THE YELLOW WEDGE on endless white salt flats under a hard blue sky, fast and aggressive, shot like a high-end supercar commercial: speed blur, low angles, bold camera moves, every cut motivated. SHOT 1 (0.0s to 4.0s), CLOSE-UP AT THE NOSE: heat haze shimmering over the yellow bonnet, the engine revs and the car launches, salt spraying from the tyres. Hard cut on the launch. SHOT 2 (4.0s to 10.0s), CAMERA CAR LOW ALONGSIDE AT FULL SPEED: the salt surface blurs into streaks under the yellow flank, then a static low camera on the salt as the car blasts past inches away in a burst of white dust. SHOT 3 (10.0s to 15.0s), HIGH DRONE: the car draws one long straight line across the white salt toward distant mountains, a plume of salt behind it, the camera rising slowly into the bright sky. SOUND: a V10 roaring through the gears, salt hissing under the tyres, wind, a big rhythmic score that settles at the end. No dialogue. ENDING: no hard cut, and the car never simply drives out of frame on the last frame. The final shot settles and the image fades smoothly to black over the last 1.5 seconds. LOCKS: the car keeps the exact shape, paint and wheels of the reference. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+</section>
+<section class="car" id="room-05">
+  <div class="car-head">
+    <span class="room">Room 05</span>
+    <h2>The white track car</h2>
+    <p class="meta">Kling 4.0 · 1 film</p>
+  </div>
+
+<article class="film" id="film-05">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Runway at Sunset</h3><span class="badge final">On the wall</span></header>
+    <p class="note">The car stays accurate the whole way, and the end fades darker into the sunset.</p>
+    <ol class="shots"><li><span>Shot 1</span>The rear wing tilts on launch</li><li><span>Shot 2</span>Head-on at top speed down the centre line, then the chase</li><li><span>Shot 3</span>Side tracking into the sunset until it&#x27;s a silhouette</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Kling 4.0</td></tr><tr><th>Where</th><td>Higgsfield MCP, from Claude Code</td></tr><tr><th>Mode</th><td>Reference to video: one still of the car</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>Not available for Kling 4.0</td></tr>
+        <tr><th>Cost</th><td>33.75 credits for 15 s at 720p (48.75 at 1080p). No unlimited option.</td></tr>
+        <tr><th>Time</th><td>About 10 minutes. Paid runs go in parallel, so all three came back together.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>The reference image shows THE WHITE TRACK CAR, a white and black track hypercar with a gloss black roof and bonnet, a tall rear wing, dark wheels and red brake calipers. SCENE: a 15-second high-octane car film for THE WHITE TRACK CAR on an empty airfield runway at sunset, fast and aggressive, shot like a high-end supercar commercial: speed blur, low angles, bold camera moves, every cut motivated. SHOT 1 (0.0s to 4.0s), CLOSE-UP FROM BEHIND: the tall rear wing tilts as the car launches, heat shimmer from the exhausts, the runway lights glowing. Hard cut on the launch. SHOT 2 (4.0s to 10.0s), CAMERA LOW ON THE RUNWAY CENTRE LINE: the car rushes toward the lens at top speed and blasts past a metre away, the runway lights streaking, then the camera chases it from behind at bumper height, the wing filling the frame. SHOT 3 (10.0s to 15.0s), SIDE TRACKING AT SPEED: the car runs flat out along the runway with the low orange sun behind it, then the camera slows and lets it pull away into the sunset until it is a silhouette in the glare. SOUND: a twin-turbo V8 at full boost, turbo whistle, wind buffeting, a pulsing score that fades with the sun. No dialogue. ENDING: no hard cut, and the car never simply drives out of frame on the last frame. The final shot settles and the image fades smoothly to black over the last 1.5 seconds. LOCKS: the car keeps the exact shape, paint and wheels of the reference. The driver stays anonymous, gloves and silhouette, no face. Real weight and suspension, no floating. No added text or captions.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+</section>
+<section class="car" id="room-06">
+  <div class="car-head">
+    <span class="room">Room 06</span>
+    <h2>The blue hypercar</h2>
+    <p class="meta">Kling 4.0 · 1 film</p>
+  </div>
+
+<article class="film" id="film-06">
+  <div class="media"></div>
+  <div class="body">
+    <header><h3>Monaco Street Circuit</h3><span class="badge final">On the wall</span></header>
+    <p class="note">Take 2. Take 1 on a forest highway ended without a fade, so this one moves to Monaco with only the one car on the circuit.</p>
+    <ol class="shots"><li><span>Shot 1</span>Launch at the lens on the harbour straight, tyres smoking</li><li><span>Shot 2</span>Chase camera through the tunnel, out into the light, braking into the chicane</li><li><span>Shot 3</span>Helicopter shot along the harbour, blur to black</li></ol>
+    <details>
+      <summary>Settings, cost and prompt</summary>
+      <table class="settings"><tr><th>Model</th><td>Kling 4.0</td></tr><tr><th>Where</th><td>Higgsfield MCP, from Claude Code</td></tr><tr><th>Mode</th><td>Reference to video: one still of the car</td></tr><tr><th>Length</th><td>15 s</td></tr><tr><th>Quality</th><td>720p, 16:9</td></tr><tr><th>Sound</th><td>On</td></tr><tr><th>Unlimited mode</th><td>Not available for Kling 4.0</td></tr>
+        <tr><th>Cost</th><td>33.75 credits for 15 s at 720p (48.75 at 1080p). No unlimited option.</td></tr>
+        <tr><th>Time</th><td>About 10 minutes. Paid runs go in parallel, so all three came back together.</td></tr>
+      </table>
+      <div class="prompt">
+        <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+        <pre>The reference image shows THE BLUE HYPERCAR, a two-tone blue and black hypercar with a horseshoe grille, four-dot LED headlights and tan leather seats. SCENE: a 15-second high-octane car film for THE BLUE HYPERCAR flat out on the Monaco street circuit at golden hour, the streets closed and empty, barriers and kerbs lining the road, the harbour full of yachts. THE BLUE HYPERCAR is the only car on the circuit, no other vehicles anywhere. Relentless speed that feels thrilling and a little dangerous, shot like a high-end supercar commercial and a race film: heavy speed blur, very low angles, a chase camera that never lets the car go, every cut motivated. SHOT 1 (0.0s to 4.0s), LOW CAMERA ON THE HARBOUR STRAIGHT: the four-dot headlights flare as the hypercar launches hard straight at the lens, tyres smoking, the yachts and the sea glittering behind it, and it blasts past inches away. Hard cut on the roar. SHOT 2 (4.0s to 10.0s), CHASE CAMERA AT BUMPER HEIGHT RIGHT BEHIND THE CAR: through the long curving tunnel at enormous speed, the tunnel lights strobing across the blue bodywork, it bursts out of the tunnel into the bright harbour light, then the camera swings alongside as it brakes hard into the chicane, the barriers a hand&#x27;s width from the wheels. SHOT 3 (10.0s to 15.0s), HELICOPTER SHOT: the camera tracks the hypercar along the harbour front past the swimming pool section, the sea glittering gold, then pulls up and back over the harbour as the car powers away. SOUND: a deep quad-turbo W16 screaming off the buildings, the tunnel roar, tyres on the kerbs, a pounding race score. No dialogue. ENDING: the film must not end abruptly or on the car simply leaving the frame. In the last two seconds the final shot slows, the image dissolves into motion blur and fades to a fully black screen, which holds for the final half second, like the end of a cinema trailer. LOCKS: the car keeps the exact shape, paint and wheels of the reference. The driver stays anonymous, helmet or silhouette, no face. Real weight and suspension, no floating. No logos, sponsor boards or added text.</pre>
+      </div>
+    </details>
+  </div>
+</article>
+</section>
+
+<section class="car" id="trailer">
+  <div class="car-head">
+    <span class="room">The trailer</span>
+    <h2>Three drafts, one prompt layout</h2>
+    <p class="meta">Cinema Studio 4.0 · 30 s · all the cars in one film · 3 drafts at 480p, the final one upscaled to 1080p</p>
+  </div>
+  <section class="panel">
+    <h2>How a trailer prompt is laid out</h2>
+    <p>The same five parts for all three drafts. Only the story and the shots change.</p>
+    <ol class="recipe"><li><b>Scene context</b><span>What the film is about and how it should feel, so every shot belongs to one story.</span></li><li><b>Active references</b><span>Each car named once, with a short name the shots use after that. It&#x27;s a cast list.</span></li><li><b>Timed shots</b><span>Eleven to thirteen numbered shots that add up to 30 s, each with one job and one named camera setup. No car gets the same kind of shot as another.</span></li><li><b>Audio</b><span>What&#x27;s heard over black, how the score builds, where it goes silent.</span></li><li><b>Positive locks</b><span>What must stay the same in every shot: the exact cars, anonymous drivers, real weight, no text.</span></li></ol>
+  </section>
+
+  <article class="film" id="film-T-A">
+    <div class="media"></div>
+    <div class="body">
+      <header><h3>After Hours</h3><span class="badge final">Final</span></header>
+      <p class="note">The cars are on loan and never leave the gallery. Tonight they do. It opens on a spotlight in the dark gallery and ends on the same spotlight over an empty floor with fresh tyre marks.</p>
+      <p class="note"><b>The final trailer. It follows its shot list best and tells the page&#x27;s own story. Made as a 480p draft, then upscaled to 1080p for 10 credits (Bytedance Video Upscale, AI video preset, pro).</b></p>
+      <details>
+        <summary>Settings, cost and prompt</summary>
+        <table class="settings"><tr><th>Model</th><td>Cinema Studio 4.0</td></tr><tr><th>Where</th><td>higgsfield.ai, Cinema Studio</td></tr><tr><th>References</th><td>Five car stills from the page, tagged @Image 1 to @Image 5 (the cast)</td></tr><tr><th>Genre</th><td>Action</td></tr><tr><th>Era</th><td>2020s</td></tr><tr><th>Tempo</th><td>Dynamic</td></tr><tr><th>Lens</th><td>Anamorphic</td></tr><tr><th>Length</th><td>30 s</td></tr><tr><th>Quality</th><td>480p draft, upscaled to 1080p, 16:9</td></tr><tr><th>Sound</th><td>On</td></tr>
+          <tr><th>Cost</th><td>90 credits for a 30 s draft at 480p. The same trailer costs 210 at 720p and 480 at 1080p. Cinema Studio has no unlimited option.</td></tr>
+          <tr><th>Time</th><td>About 8 to 12 minutes. The three drafts ran in parallel because they were paid.</td></tr>
+        </table>
+        <div class="prompt">
+          <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+          <pre>SCENE CONTEXT: a 30-second trailer for a private supercar gallery. The cars are on loan and never leave. Tonight they do: one night of driving, from the dark gallery through the wet city to sunrise in the mountains, on the coast and in the desert. Fast, tense and exciting, shot like a high-end car film, every cut motivated. ACTIVE REFERENCES: @Image 1 is THE RED ROADSTER, a red open-top mid-engine sports car with tan leather and silver five-spoke wheels. @Image 2 is THE SILVER COUPE, a silver rear-engine coupe with round headlights, a sloping roof and yellow brake calipers. @Image 3 is THE GREEN V12, a green angular wedge supercar with black wheels and large side intakes. @Image 4 is THE WHITE TRACK CAR, a white and black track hypercar with a tall rear wing. @Image 5 is THE BLUE HYPERCAR, a blue and black hypercar with a horseshoe grille and four-dot headlights. SHOT 1 (0.0s to 2.0s), BLACK: pure black, then one spotlight clicks on in a dark gallery and catches only the front wheel arch of THE GREEN V12. SHOT 2 (2.0s to 3.5s), EXTREME CLOSE-UP: a gloved finger presses the start button and the dashboard floods red. SHOT 3 (3.5s to 5.0s), CLOSE-UP FROM BEHIND: the exhausts spit flame as the tall gallery doors slide open onto a wet city at night. SHOT 4 (5.0s to 7.5s), LOW STATIC CAMERA ON THE WET ROAD: THE GREEN V12 charges straight at the lens and roars past inches away, neon streaking along its paint. SHOT 5 (7.5s to 10.0s), CAMERA FIXED BESIDE THE REAR WHEEL of THE SILVER COUPE in a tunnel, lights strobing over the silver paint, the tunnel exit flaring to white. SHOT 6 (10.0s to 12.5s), DAWN, ALPINE HAIRPIN, CAMERA LOW AT THE APEX: THE SILVER COUPE slides through the bend right to left a metre from the lens, stones flicking from the tyre. SHOT 7 (12.5s to 15.0s), DRONE: drops from high above a cliff road over the sea at sunrise down to door height beside THE RED ROADSTER, the driver&#x27;s hair in the wind, face hidden. SHOT 8 (15.0s to 16.5s), EXTREME CLOSE-UP: the rev needle sweeps to the redline. SHOT 9 (16.5s to 21.0s), DESERT HIGHWAY AT SUNRISE, CAMERA LOW BETWEEN TWO CARS: THE WHITE TRACK CAR and THE BLUE HYPERCAR run side by side, nose to nose, a metre from the lens on each side, heat haze. SHOT 10 (21.0s to 23.0s), QUICK DETAILS: the white car&#x27;s rear wing tilts, the blue car&#x27;s headlights flare. SHOT 11 (23.0s to 26.5s), SLOW-MOTION SIDE PAN: THE BLUE HYPERCAR edges ahead and blasts past, the driver&#x27;s silhouette at the wheel, the background streaked, the sun flaring behind. SHOT 12 (26.5s to 30.0s), THE GALLERY: the spotlight on an empty polished floor with fresh tyre marks. The light clicks off. Black. AUDIO: silence and one click, then a low engine idle like a heartbeat, deep drums and orchestral hits building with each car, each engine its own voice. Hard silence for the empty gallery, then one distant engine roar over black. No dialogue. POSITIVE LOCKS: every car keeps the exact shape, paint and wheels of its reference. Drivers stay anonymous, gloves and silhouettes, no faces. No logos, badges or text. Real weight and suspension, no floating.</pre>
+        </div>
+      </details>
+    </div>
+  </article>
+  <article class="film" id="film-T-B">
+    <div class="media"></div>
+    <div class="body">
+      <header><h3>First Drive</h3><span class="badge option">Draft</span></header>
+      <p class="note">You in the driver&#x27;s seat for the first time. A hand on the wheel, a foot on the throttle, a glowing brake, then each car at full speed from the coast at dawn to the city at night to the desert at sunrise. It ends on a car key dropped into an open palm.</p>
+      <p class="note"><b>The one that makes you want to drive.</b></p>
+      <details>
+        <summary>Settings, cost and prompt</summary>
+        <table class="settings"><tr><th>Model</th><td>Cinema Studio 4.0</td></tr><tr><th>Where</th><td>higgsfield.ai, Cinema Studio</td></tr><tr><th>References</th><td>Five car stills from the page, tagged @Image 1 to @Image 5 (the cast)</td></tr><tr><th>Genre</th><td>Epic</td></tr><tr><th>Era</th><td>2020s</td></tr><tr><th>Tempo</th><td>Dynamic</td></tr><tr><th>Lens</th><td>Anamorphic</td></tr><tr><th>Length</th><td>30 s</td></tr><tr><th>Quality</th><td>480p draft, 16:9</td></tr><tr><th>Sound</th><td>On</td></tr>
+          <tr><th>Cost</th><td>90 credits for a 30 s draft at 480p. The same trailer costs 210 at 720p and 480 at 1080p. Cinema Studio has no unlimited option.</td></tr>
+          <tr><th>Time</th><td>About 8 to 12 minutes. The three drafts ran in parallel because they were paid.</td></tr>
+        </table>
+        <div class="prompt">
+          <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+          <pre>SCENE CONTEXT: a 30-second trailer that puts the viewer in the driver&#x27;s seat for the first time. Each car is felt up close, a hand, a pedal, a glowing brake, then seen at full speed. One day and night of driving, from dawn on the coast to night in the city to sunrise in the desert. Exhilarating and fast, shot like a high-end car film, every cut motivated. ACTIVE REFERENCES: @Image 1 is THE RED ROADSTER, a red open-top mid-engine sports car with tan leather and silver five-spoke wheels. @Image 2 is THE SILVER COUPE, a silver rear-engine coupe with round headlights, a sloping roof and yellow brake calipers. @Image 3 is THE GREEN V12, a green angular wedge supercar with black wheels and large side intakes. @Image 4 is THE WHITE TRACK CAR, a white and black track hypercar with a tall rear wing. @Image 5 is THE BLUE HYPERCAR, a blue and black hypercar with a horseshoe grille and four-dot headlights. SHOT 1 (0.0s to 2.0s), BLACK: pure black and a slow breath. A garage door rolls up and a blade of dawn light slides across the floor onto the bonnet of THE RED ROADSTER. SHOT 2 (2.0s to 3.5s), EXTREME CLOSE-UP: a gloved hand grips the steering wheel, the engine wakes and the frame shakes with it. SHOT 3 (3.5s to 7.0s), CAMERA CAR AHEAD, LOW, LOOKING BACK: THE RED ROADSTER chases the lens along a cliff road above a glittering sea at sunrise, the driver&#x27;s hair in the wind, face hidden by glare. SHOT 4 (7.0s to 8.0s), EXTREME CLOSE-UP: a foot presses the throttle to the floor. SHOT 5 (8.0s to 11.0s), TIGHT ORBIT: on a mountain hairpin in morning light, the camera circles close around the rear of THE SILVER COUPE as it carves through, the peaks wheeling behind. SHOT 6 (11.0s to 12.5s), EXTREME CLOSE-UP: a brake disc glows orange behind the wheel spokes. SHOT 7 (12.5s to 15.5s), NIGHT, WET CITY, CLOSE AT HEADLIGHT HEIGHT: THE GREEN V12 waits at a red light, rain on its bonnet. The light turns green and it launches out of frame, spray hitting the lens. SHOT 8 (15.5s to 20.0s), DESERT HIGHWAY AT SUNRISE, CAMERA ON A LOW ARM BETWEEN TWO CARS: THE WHITE TRACK CAR and THE BLUE HYPERCAR side by side a metre from the lens, trading the lead inch by inch. SHOT 9 (20.0s to 22.0s), INSIDE THE BLUE HYPERCAR, OVER THE DRIVER&#x27;S SHOULDER: the white car&#x27;s wing just ahead through the windscreen, the speed climbing. SHOT 10 (22.0s to 26.0s), SIDE PAN WITH A SLOW SHUTTER: THE BLUE HYPERCAR passes left to right at full speed, the background smeared into streaks, the driver&#x27;s silhouette at the wheel. SHOT 11 (26.0s to 30.0s), CLOSE-UP: a car key drops into an open palm held out toward the camera. The fingers close. Cut to black on one engine rev. AUDIO: a slow breath over black, the garage door, then each engine starting as its own voice, a pulsing score that grows with every car, a beat of silence before the key, one engine rev over black. No dialogue. POSITIVE LOCKS: every car keeps the exact shape, paint and wheels of its reference. Drivers stay anonymous, gloves and silhouettes, no faces. No logos, badges or text. Real weight and suspension, no floating.</pre>
+        </div>
+      </details>
+    </div>
+  </article>
+  <article class="film" id="film-T-C">
+    <div class="media"></div>
+    <div class="body">
+      <header><h3>Head to Head</h3><span class="badge option">Draft</span></header>
+      <p class="note">One race through one night until sunrise. Two cars side by side in the city, a mountain pass at dawn, then two hypercars head to head in the desert, splitting past the camera on both sides.</p>
+      <p class="note"><b>The fastest of the three. The ending is the weakest.</b></p>
+      <details>
+        <summary>Settings, cost and prompt</summary>
+        <table class="settings"><tr><th>Model</th><td>Cinema Studio 4.0</td></tr><tr><th>Where</th><td>higgsfield.ai, Cinema Studio</td></tr><tr><th>References</th><td>Five car stills from the page, tagged @Image 1 to @Image 5 (the cast)</td></tr><tr><th>Genre</th><td>Action</td></tr><tr><th>Era</th><td>2020s</td></tr><tr><th>Tempo</th><td>Chaotic</td></tr><tr><th>Lens</th><td>Anamorphic</td></tr><tr><th>Length</th><td>30 s</td></tr><tr><th>Quality</th><td>480p draft, 16:9</td></tr><tr><th>Sound</th><td>On</td></tr>
+          <tr><th>Cost</th><td>90 credits for a 30 s draft at 480p. The same trailer costs 210 at 720p and 480 at 1080p. Cinema Studio has no unlimited option.</td></tr>
+          <tr><th>Time</th><td>About 8 to 12 minutes. The three drafts ran in parallel because they were paid.</td></tr>
+        </table>
+        <div class="prompt">
+          <div class="prompt-head"><span>Prompt, exactly as sent</span><button type="button" class="copy">Copy</button></div>
+          <pre>SCENE CONTEXT: a 30-second trailer built as one race through one night until sunrise. Two cars start side by side in the city, the race climbs a mountain pass at dawn and ends with two hypercars head to head in the desert. Pure adrenaline, fast cutting, every shot close to the cars, shot like a high-end car film. ACTIVE REFERENCES: @Image 1 is THE RED ROADSTER, a red open-top mid-engine sports car with tan leather and silver five-spoke wheels. @Image 2 is THE SILVER COUPE, a silver rear-engine coupe with round headlights, a sloping roof and yellow brake calipers. @Image 3 is THE GREEN V12, a green angular wedge supercar with black wheels and large side intakes. @Image 4 is THE WHITE TRACK CAR, a white and black track hypercar with a tall rear wing. @Image 5 is THE BLUE HYPERCAR, a blue and black hypercar with a horseshoe grille and four-dot headlights. SHOT 1 (0.0s to 1.5s), BLACK: two engines idling in the dark, then two sets of headlights snap on at once on a wet city street at night. SHOT 2 (1.5s to 3.0s), EXTREME CLOSE-UP: a rear tyre spins on wet asphalt, smoke and spray glowing red. SHOT 3 (3.0s to 6.5s), NIGHT CITY, LOW CHASE CAMERA BEHIND THEM: THE GREEN V12 and THE RED ROADSTER weave side by side down a neon street, tail lights and exhaust flames filling the frame, swapping the lead. SHOT 4 (6.5s to 8.0s), CLOSE-UP INSIDE THE OPEN-TOP RED ROADSTER: a gloved hand pulls the shift paddle, city lights smearing past. SHOT 5 (8.0s to 9.0s): THE GREEN V12 dives into a tunnel and the far end flares to white. SHOT 6 (9.0s to 12.5s), DAWN, MOUNTAIN PASS, CAMERA MOUNTED LOW ON THE FRONT BUMPER OF THE SILVER COUPE looking back along its flank as it slides through a hairpin, the valley dropping away below. SHOT 7 (12.5s to 14.0s), EXTREME CLOSE-UP: the silver coupe&#x27;s round headlight and yellow caliper flash past. SHOT 8 (14.0s to 16.0s), DESERT AT SUNRISE, LOW FRONT VIEW: THE WHITE TRACK CAR and THE BLUE HYPERCAR wait side by side on an empty highway, heat haze, engines climbing. SHOT 9 (16.0s to 21.0s), CAMERA ON A LOW ARM BETWEEN THEM: both launch and run side by side at full speed, a metre from the lens on each side, the white wing and the blue grille trading the lead. SHOT 10 (21.0s to 23.0s), QUICK DETAILS: the wing tilting, the four-dot headlights, the speed needle. SHOT 11 (23.0s to 26.0s), TOP-DOWN DRONE: two shapes on the long straight, long morning shadows, dead even. SHOT 12 (26.0s to 29.0s), CAMERA IN THE MIDDLE OF THE ROAD, LOW: both cars rush at the lens and split past it on either side, the drivers&#x27; silhouettes visible. SHOT 13 (29.0s to 30.0s), BLACK on the fading roar. AUDIO: two idling engines over black, then a driving percussive score, each engine its own voice, tyre squeal, a whoosh on every pass, a final double roar that cuts to silence on black. No dialogue. POSITIVE LOCKS: every car keeps the exact shape, paint and wheels of its reference. Drivers stay anonymous, gloves and silhouettes, no faces. No logos, badges or text. Real weight and suspension, no floating.</pre>
+        </div>
+      </details>
+    </div>
+  </article>
+</section>
+
+  <footer>Films made with Higgsfield: Seedance 2.5, Kling 4.0 and Cinema Studio 4.0. You can see them in the video. The references are stills taken from the 3D page. Prices are Higgsfield credits as of November 2026.</footer>
+</div>
+<dialog class="lightbox" aria-label="Still">
+  <img alt="">
+  <p></p>
+  <button type="button" class="close" aria-label="Close">Close</button>
+</dialog>
+<script>
+document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', async () => {
+  const t = b.closest('.prompt').querySelector('pre').innerText;
+  try { await navigator.clipboard.writeText(t); b.textContent = 'Copied'; }
+  catch (_) { const r = document.createRange(); r.selectNodeContents(b.closest('.prompt').querySelector('pre')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; }
+  setTimeout(() => b.textContent = 'Copy', 1600);
+}));
+// stills open large on click, Esc or a click anywhere closes them
+const box = document.querySelector('.lightbox');
+document.querySelectorAll('.still').forEach(s => s.addEventListener('click', () => {
+  box.querySelector('img').src = s.dataset.full;
+  box.querySelector('img').alt = s.dataset.alt;
+  box.querySelector('p').textContent = s.dataset.alt;
+  box.showModal();
+}));
+box.addEventListener('click', () => box.close());
+// one film plays at a time
+document.querySelectorAll('video').forEach(v => v.addEventListener('play', () =>
+  document.querySelectorAll('video').forEach(o => { if (o !== v) o.pause(); })));
+</script>
+</body>
+</html>
